@@ -61,3 +61,7 @@ $route['edit/(:num)'] = 'listController/edit/$1';
 $route['update/(:num)'] = 'listController/update/$1';
 $route['delete/(:num)'] = 'listController/delete/$1';
 $route['search'] = 'listController/search';
+$route['index2'] = 'listController/index2';
+$route['calculatorPage'] = 'listController/calculatorPage';
+$route['calculate'] = 'listController/calculate';
+$route['calculations'] = 'listController/calculations';
