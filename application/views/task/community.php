@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Community</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -61,7 +59,6 @@
 
             getList();
 
-            // Submit form via AJAX
             $("#postForm").on("submit", function(event) {
                 event.preventDefault();
 
@@ -77,10 +74,10 @@
                       success: function(response) {
                           const newPost = JSON.parse(response);
                           if (newPost.error) {
-                              alert(newPost.error); // Hata mesajını göster
+                              alert(newPost.error);
                               return;
                           }
-                          // getList();
+
                           const newRow = `
                               <tr>
                                   <td>${newPost.title}</td>

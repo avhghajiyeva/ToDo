@@ -192,30 +192,24 @@ public function calculate() {
 	}
 
 	 public function community() {
-	     $user_id = $this->session->userdata('user_id'); // Get logged-in user ID
-	     $data["posts"] = $this->Post_model->get_posts_by_user($user_id); // Fetch posts based on the user ID
+	     $user_id = $this->session->userdata('user_id');
+	     $data["posts"] = $this->Post_model->get_posts_by_user($user_id);
 	     echo json_encode($data["posts"]);
 	 }
 
 	 public function submit_post() {
-
-		    // Get the logged-in user ID from the session
 		    $user_id = $this->session->userdata('user_id');
 				if (!$user_id) {
 								echo json_encode(['error' => 'User not logged in']);
 								return;
 						}
-		    // Prepare the data array to insert into the database
 		    $param = [
-		        'user_id' => $user_id, // Assign user_id to the array
+		        'user_id' => $user_id,
 		        'title' => $this->input->post('title'),
 		        'description' => $this->input->post('description')
 		    ];
 
-		    // Call the save_post method to insert the post into the database
-
 				if ($this->Post_model->save_post($param)) {
-		    // Return the new post data as JSON
 		    echo json_encode([
 		        'title' => $this->input->post('title'),
 		        'description' => $this->input->post('description')
