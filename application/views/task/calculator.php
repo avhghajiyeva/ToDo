@@ -81,7 +81,7 @@
                     success: function(response) {
                         const result = JSON.parse(response);
 
-                        $("#resultsTable tbody").append(`
+                        $("#resultsTable tbody").html(`
                             <tr>
                                 <td>${result.num1}</td>
                                 <td>${result.num2}</td>
@@ -91,7 +91,7 @@
                         `);
                     },
                     error: function() {
-                        alert('Veri gönderme hatası!');
+                        consol.log('Veri gönderme hatası!');
                     }
                 });
             });

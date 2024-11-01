@@ -65,3 +65,4 @@ $route['index2'] = 'listController/index2';
 $route['calculatorPage'] = 'listController/calculatorPage';
 $route['calculate'] = 'listController/calculate';
 $route['calculations'] = 'listController/calculations';
+$route['all'] = 'listController/all';

@@ -139,4 +139,12 @@ public function calculations(){
 		$this->load->view("task/calculations");
 }
 
+
+public function all(){
+$data["calculations"]=$this->Calculate_model->get_all();
+	echo json_encode($data["calculations"]);
+}
+
+
+
 }
