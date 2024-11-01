@@ -8,19 +8,44 @@ parent::__construct();
 $this->load->database();
 $this->load->model("list_model");
 $this->load->model("Calculate_model");
+$this->load->model("User_model");
+$this->load->model("Post_model");
 $this->load->library("session");
 $this->load->helper('url');
 }
 
+public function loginPage()
+{
 
-public function index(){
-	$param=$this->list_model->get_all();
-	$this->load->view("task/index", ['param' => $param]);
+    if ($this->session->userdata('user_id')) {
+        redirect('show');
+    }
+    $error = $this->session->flashdata('login_error');
+    $this->load->view("login");
+}
+
+public function login()
+{
+    $email = $this->input->post('email');
+    $password = $this->input->post('password');
+    $user = $this->User_model->get_user($email, $password);
+
+    if ($user) {
+        $this->session->set_userdata('user_id', $user->id);
+        redirect("show");
+    } else {
+        $this->session->set_flashdata('login_error', 'Email or password is incorrect.');
+        redirect("login-page");
+    }
 }
 
 public function show(){
+	if (!$this->session->userdata('user_id')) {
+			redirect('login-page');
+	}
 	$this->load->view("task/create");
 }
+
 
  public function create(){
 	 $token = bin2hex(random_bytes(16));
@@ -36,6 +61,15 @@ public function show(){
 		 redirect("index");
 	 }
  }
+
+
+public function index(){
+	if (!$this->session->userdata('user_id')) {
+			redirect('login-page');
+	}
+	$param=$this->list_model->get_all();
+	$this->load->view("task/index", ['param' => $param]);
+}
 
 public function edit($id){
 	$list=$this->list_model->getId($id);
@@ -82,6 +116,12 @@ public function search() {
 }
 
 
+public function logout()
+{
+    $this->session->unset_userdata('user_id');
+    $this->session->sess_destroy();
+    redirect('login-page');
+}
 
 public function index2(){
 	$this->load->view("index2");
@@ -90,7 +130,6 @@ public function index2(){
 public function calculatorPage(){
 	$this->load->view("task/calculator");
 }
-
 
 public function calculate() {
     if ($this->input->post("num1") && $this->input->post("num2")) {
@@ -135,16 +174,55 @@ public function calculate() {
     }
 }
 
-public function calculations(){
-		$this->load->view("task/calculations");
-}
+	public function calculations(){
+			$this->load->view("task/calculations");
+	}
 
+	public function all(){
+	$data["calculations"]=$this->Calculate_model->get_all();
+		echo json_encode($data["calculations"]);
+	}
 
-public function all(){
-$data["calculations"]=$this->Calculate_model->get_all();
-	echo json_encode($data["calculations"]);
-}
+	public function communityPage()
+	{
+		if (!$this->session->userdata('user_id')) {
+				redirect('login-page');
+		}
+		$this->load->view("task/community");
+	}
 
+	 public function community() {
+	     $user_id = $this->session->userdata('user_id'); // Get logged-in user ID
+	     $data["posts"] = $this->Post_model->get_posts_by_user($user_id); // Fetch posts based on the user ID
+	     echo json_encode($data["posts"]);
+	 }
 
+	 public function submit_post() {
+
+		    // Get the logged-in user ID from the session
+		    $user_id = $this->session->userdata('user_id');
+				if (!$user_id) {
+								echo json_encode(['error' => 'User not logged in']);
+								return;
+						}
+		    // Prepare the data array to insert into the database
+		    $param = [
+		        'user_id' => $user_id, // Assign user_id to the array
+		        'title' => $this->input->post('title'),
+		        'description' => $this->input->post('description')
+		    ];
+
+		    // Call the save_post method to insert the post into the database
+
+				if ($this->Post_model->save_post($param)) {
+		    // Return the new post data as JSON
+		    echo json_encode([
+		        'title' => $this->input->post('title'),
+		        'description' => $this->input->post('description')
+		    ]);
+		} else {
+		    echo json_encode(['error' => 'Failed to save post']);
+		}
+	}
 
 }

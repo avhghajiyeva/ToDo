@@ -1,5 +1,6 @@
 <?php
-$lang = include('lang.php');  // Make sure lang.php returns an array
+$lang = include('lang.php');
+ // Make sure lang.php returns an array
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +18,7 @@ $lang = include('lang.php');  // Make sure lang.php returns an array
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <title>Tapşırıqlar</title>
 </head>
 <body>
@@ -26,7 +28,9 @@ $lang = include('lang.php');  // Make sure lang.php returns an array
     <div class="mb-3">
         <a href="<?= base_url("show") ?>" data-toggle="tooltip" data-placement="top" title="Yarat" class="btn btn-success"><i class="fa-solid fa-plus fa-lg"></i></a>
     </div>
-
+    <div class="mb-3">
+        <a href="<?= base_url("community-page") ?>" data-toggle="tooltip" data-placement="top" title="community" class="btn btn-success"><i class="fa-solid fa-bullhorn"></i></a>
+    </div>
     <form id="searchForm" class="mb-4" action="<?= base_url('search') ?>">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Axtar...">

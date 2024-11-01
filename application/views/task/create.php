@@ -10,6 +10,9 @@
 
 <div class="container mt-5">
     <h1 class="text-center">Yeni Tapşırıq Yarat</h1>
+    <div class="mb-3">
+        <a href="<?= base_url("logout") ?>" data-toggle="tooltip" data-placement="top" class="btn btn-success">Logout</a>
+    </div>
     <form method="post" action="<?= base_url("create") ?>" class="mt-4">
         <div class="form-group">
             <label for="name">Ad:</label>

@@ -9,3 +9,36 @@
 
 </body>
 </html>
+<script>
+		$(document).ready(function() {
+
+			const trComponent = (v, i) => {
+				return `
+									<tr>
+											<td>${v.num1}</td>
+											<td>${v.num2}</td>
+											<td>${v.operation}</td>
+											<td>${v.result}</td>
+									</tr>
+				`;
+			}
+				// Fetch data when the page loads
+				let h = ``;
+
+				$.ajax({
+						url: "<?= base_url('all') ?>", // Adjust to your endpoint URL
+						method: "GET",
+						success: function(response) {
+								const results = JSON.parse(response); // Changed 'result' to 'results'
+
+								h += results.map((v, i) => trComponent(v, i));
+
+								$(`[data-role="tbody"]`).html(h);
+
+						},
+						error: function() {
+								alert('Veri yüklenemedi!'); // Improved the error message
+						}
+				});
+		});
+</script>

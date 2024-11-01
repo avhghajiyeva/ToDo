@@ -7,6 +7,8 @@ public function create($param){
   return $this->db->insert("lists",$param);
 }
 
+
+
 public function get_all(){
   $this->db->where("deleted_at", null);
   return $this->db->get("lists")->result();
