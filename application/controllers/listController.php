@@ -182,41 +182,42 @@ public function calculate() {
 	$data["calculations"]=$this->Calculate_model->get_all();
 		echo json_encode($data["calculations"]);
 	}
-
 	public function communityPage()
-	{
-		if (!$this->session->userdata('user_id')) {
-				redirect('login-page');
-		}
-		$this->load->view("task/community");
-	}
+	    {
+	        if (!$this->session->userdata('user_id')) {
+	            redirect('login-page');
+	        }
 
-	 public function community() {
-	     $user_id = $this->session->userdata('user_id');
-	     $data["posts"] = $this->Post_model->get_posts_by_user($user_id);
-	     echo json_encode($data["posts"]);
-	 }
+	        // $this->load->view("task/community");
+	    }
 
-	 public function submit_post() {
-		    $user_id = $this->session->userdata('user_id');
-				if (!$user_id) {
-								echo json_encode(['error' => 'User not logged in']);
-								return;
-						}
-		    $param = [
-		        'user_id' => $user_id,
-		        'title' => $this->input->post('title'),
-		        'description' => $this->input->post('description')
-		    ];
+	    public function community() {
+	        $user_id = $this->session->userdata('user_id');
+	        if (!$user_id) {
+	            echo json_encode(['error' => 'User not logged in']);
+	            return;
+	        }
 
-				if ($this->Post_model->save_post($param)) {
-		    echo json_encode([
-		        'title' => $this->input->post('title'),
-		        'description' => $this->input->post('description')
-		    ]);
-		} else {
-		    echo json_encode(['error' => 'Failed to save post']);
-		}
-	}
+	        $data["posts"] = $this->Post_model->get_posts();
+	        echo json_encode($data["posts"]);
+	    }
 
+	    public function submit_post() {
+	        $title = $this->input->post('title');
+	        $description = $this->input->post('description');
+
+	        if ($title && $description) {
+	            $data = [
+	                'title' => $title,
+	                'description' => $description,
+	                'created_at' => date('Y-m-d H:i:s')
+	            ];
+	            $this->Post_model->create_post($data);
+
+	            $posts = $this->Post_model->get_posts();
+	            echo json_encode($posts);
+	        } else {
+	            echo json_encode(['error' => 'Title and description are required']);
+	        }
+	    }
 }

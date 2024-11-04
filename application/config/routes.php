@@ -72,3 +72,7 @@ $route['logout'] = 'listController/logout';
 $route['community-page'] = 'listController/communityPage';
 $route['community'] = 'listController/community';
 $route['submit-post'] = 'listController/submit_post';
+$route['toggle-like'] = 'CommunityController/toggle_like';
+
+// $route['unlike-post/(:num)'] = 'listController/unlike_post/$1';
+// $route['like-post/(:num)'] = 'listController/like_post/$1';
